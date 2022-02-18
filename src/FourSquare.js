@@ -230,6 +230,7 @@ const RABIN_EXCEPTIONS = {
     "9634": [ 97n, 15n, 0n, 0n ],
 };
 
+// MICHAEL 0. RABIN et al. "Randomized Algorithms in Number Theory"
 function findSumOfThree(n) {
     if (RABIN_EXCEPTIONS[n]) {
         return RABIN_EXCEPTIONS[n];
@@ -261,7 +262,7 @@ function findSumOfThree(n) {
     }
 }
 
-export function findSolution(n) {
+export function findSolution(n, findOptimal = false) {
     if (typeof n !== 'bigint') {
         n = BigInt(n);
     }
@@ -293,41 +294,49 @@ export function findSolution(n) {
         return [ 2n, sub[0], sub[1], sub[2] ];
     }
 
-    const primes = factorize(n);
-    let evenAcc = 1n;
-    // oddCount에 들어가는 것은 지수가 홀수인 소인수.
-    const oddSet = new Set();
-    primes.forEach(p => {
-        if (oddSet.has(p)) {
-            evenAcc *= p;
-            oddSet.delete(p);
-        } else {
-            oddSet.add(p);
-        }
-    });
+    // 위의 조건들에 모두 해당하지 않는다면, n은 2개 또는 3개의 제곱수로 나타낼 수 있음.
+    // 따라서 MICHAEL 0. RABIN et al.의 O(log (n)^2) 알고리즘을 이용하여 3개의 제곱수를 사용하는 해를 찾아도 되지만,
+    // 가능한 적은 제곱수를 사용하는 "최적해"를 구하려고 한다면
+    // Pollard-rho 소인수 분해 알고리즘으로 n을 소인수분해해 4k+3 꼴의 소인수가 존재하는지 확인해야 함. (O(n^(1/4)))
+    if (findOptimal) {
+        const primes = factorize(n);
+        let evenAcc = 1n;
+        // oddCount에 들어가는 것은 지수가 홀수인 소인수.
+        const oddSet = new Set();
+        primes.forEach(p => {
+            if (oddSet.has(p)) {
+                evenAcc *= p;
+                oddSet.delete(p);
+            } else {
+                oddSet.add(p);
+            }
+        });
 
-    // n mod 8 != 7 이라면 2개 or 3개로 만들 수 있음.
-    // oddCount에 포함된 p에는 2 or 4k+1 꼴 or 4k+3 꼴의 소수가 있을 수 있는데
-    // 2와 4k+1은 2개의 제곱수로 나타낼 수 있으나,
-    // 4k+3는 3개의 제곱수 필요.
-    let mod3Exist = false;
-    oddSet.forEach(p => {
-        if (p % 4n === 3n) {
-            mod3Exist = true;
-        }
-    });
+        // n mod 8 != 7 이라면 2개 or 3개로 만들 수 있음.
+        // oddCount에 포함된 p에는 2 or 4k+1 꼴 or 4k+3 꼴의 소수가 있을 수 있는데
+        // 2와 4k+1은 2개의 제곱수로 나타낼 수 있으나,
+        // 4k+3는 3개의 제곱수 필요.
+        let mod3Exist = false;
+        oddSet.forEach(p => {
+            if (p % 4n === 3n) {
+                mod3Exist = true;
+            }
+        });
 
-    if (mod3Exist) {
+        if (mod3Exist) {
+            return findSumOfThree(n);
+        }
+
+        let result = null;
+        oddSet.forEach(p => {
+            if (result === null) {
+                result = findSumOfTwo(p);
+            } else {
+                result = mergeAsTwo(result, findSumOfTwo(p));
+            }
+        });
+        return [ result[0]*evenAcc, result[1]*evenAcc, result[2]*evenAcc, result[3]*evenAcc ];
+    } else {
         return findSumOfThree(n);
     }
-
-    let result = null;
-    oddSet.forEach(p => {
-        if (result === null) {
-            result = findSumOfTwo(p);
-        } else {
-            result = mergeAsTwo(result, findSumOfTwo(p));
-        }
-    });
-    return [ result[0]*evenAcc, result[1]*evenAcc, result[2]*evenAcc, result[3]*evenAcc ];
 }
