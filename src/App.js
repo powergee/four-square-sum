@@ -24,7 +24,7 @@ function App() {
       </div>
 
       <footer>
-        <IconButton aria-label="Github">
+        <IconButton aria-label="Github" href='https://github.com/powergee/four-square-sum'>
           <GitHubIcon></GitHubIcon>
         </IconButton>
       </footer>

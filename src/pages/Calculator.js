@@ -54,7 +54,7 @@ function Calculator() {
       <FormGroup>
         <Grid container>
           <Grid item xs>
-            <FormControlLabel label="Find optimal solution" control={
+            <FormControlLabel label="Find a solution with the fewest number" control={
               <Switch checked={findOptimal} onChange={handleOptimalChange}></Switch>}>
             </FormControlLabel>
           </Grid>
@@ -72,7 +72,8 @@ function Calculator() {
           variant="outlined"
           InputProps={{
             inputComponent: NumberFormatCustom,
-          }}>
+          }}
+          helperText={findOptimal ? "Due to the polynomial time complexity, the browser may stop with a large number." : undefined}>
         </TextField>
 
       </FormGroup>
