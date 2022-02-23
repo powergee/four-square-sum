@@ -1,22 +1,33 @@
+import { Typography, IconButton } from '@mui/material';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { Calculator } from "./pages";
 import './App.css';
-import { useState } from 'react';
-import { findSolution } from './FourSquare';
 
 function App() {
-  const [number, setNumber] = useState("0");
-  const [result, setResult] = useState(["0", "0", "0", "0"]);
-
-  function handleChange(e) {
-    setNumber(e.target.value);
-    setResult(findSolution(e.target.value))
-  }
-
   return (
-    <div className='app-root'>
-      <input type='number' onChange={handleChange}></input>
-      <div className='app-results'>
-        <span>{`${number}=${result.map(r => `${r}²`).join('+')}`}</span>
+    <div className="app-root">
+      <div className="app-header">
+        <div className="app-header-inner">
+          <div className="app-title-layout">
+            <Typography variant="h2">Lagrange's four-square calculator</Typography>
+          </div>
+        </div>
       </div>
+
+      <div className="app-layout">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Calculator />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+
+      <footer>
+        <IconButton aria-label="Github">
+          <GitHubIcon></GitHubIcon>
+        </IconButton>
+      </footer>
     </div>
   );
 }

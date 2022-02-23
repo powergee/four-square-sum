@@ -1,0 +1,9 @@
+.calc-root {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.calc-results {
+  margin-top: 20px;
+}
