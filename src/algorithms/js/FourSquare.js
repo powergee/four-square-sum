@@ -295,7 +295,7 @@ export function findSolution(n, findOptimal = false) {
     }
 
     // 위의 조건들에 모두 해당하지 않는다면, n은 2개 또는 3개의 제곱수로 나타낼 수 있음.
-    // 따라서 MICHAEL 0. RABIN et al.의 O(log (n)^2) 알고리즘을 이용하여 3개의 제곱수를 사용하는 해를 찾아도 되지만,
+    // 따라서 MICHAEL 0. RABIN et al.의 알고리즘을 이용하여 3개의 제곱수를 사용하는 해를 찾아도 되지만,
     // 가능한 적은 제곱수를 사용하는 "최적해"를 구하려고 한다면
     // Pollard-rho 소인수 분해 알고리즘으로 n을 소인수분해해 4k+3 꼴의 소인수가 존재하는지 확인해야 함. (O(n^(1/4)))
     if (findOptimal) {

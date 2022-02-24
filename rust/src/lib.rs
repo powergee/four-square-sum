@@ -197,6 +197,7 @@ fn find_sum_of_two(p: &BigInt) -> Quadruple {
     }
 }
 
+// MICHAEL 0. RABIN et al. "Randomized Algorithms in Number Theory"
 fn find_sum_of_three(n: &BigInt) -> Quadruple {
     if let Some(exp) = check_rabin_exceptions(n) {
         return exp;
@@ -219,7 +220,7 @@ fn find_sum_of_three(n: &BigInt) -> Quadruple {
                 x = rng.gen_bigint_range(&*ZERO, &(n.sqrt()+(&*ONE)));
                 p = (n - &x*&x) / (&*TWO);
 
-                if (n-&x*&x) % (&*TWO) == (*ZERO) && (is_prime(&p) || p.is_one()) { break; }
+                if (n-&x*&x).is_multiple_of(&*TWO) && (is_prime(&p) || p.is_one()) { break; }
             }
             let two = find_sum_of_two(&p);
             [ x, &two[0]+&two[1], (&two[0]-&two[1]).abs(), (*ZERO).clone() ]
@@ -238,6 +239,7 @@ fn find_sum_of_three(n: &BigInt) -> Quadruple {
         }
     }
 }
+
 
 fn check_rabin_exceptions(n: &BigInt) -> Option<Quadruple> {
     if n > &9634_i32.to_bigint().unwrap() {
@@ -325,6 +327,10 @@ fn find_solution(n: &BigInt, find_optimal: bool) -> Quadruple {
         return [ (*TWO).clone(), sub[0].clone(), sub[1].clone(), sub[2].clone() ];
     }
 
+    // 위의 조건들에 모두 해당하지 않는다면, n은 2개 또는 3개의 제곱수로 나타낼 수 있음.
+    // 따라서 MICHAEL 0. RABIN et al.의 알고리즘을 이용하여 3개의 제곱수를 사용하는 해를 찾아도 되지만,
+    // 가능한 적은 제곱수를 사용하는 "최적해"를 구하려고 한다면
+    // Pollard-rho 소인수 분해 알고리즘으로 n을 소인수분해해 4k+3 꼴의 소인수가 존재하는지 확인해야 함. (O(n^(1/4)))
     if find_optimal {
         let primes = factorize(n);
         let mut even_acc: BigInt = (*ONE).clone();

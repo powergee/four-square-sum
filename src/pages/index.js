@@ -1,1 +1,1 @@
-export { default as Calculator } from "./Calculator";
+export { default as Main } from "./Main.js";

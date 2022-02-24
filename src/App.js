@@ -1,7 +1,7 @@
 import { Typography, IconButton } from '@mui/material';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { Calculator } from "./pages";
+import { Main } from "./pages";
 import './App.css';
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
       <div className="app-layout">
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Calculator />} />
+            <Route path="/" element={<Main />} />
           </Routes>
         </BrowserRouter>
       </div>

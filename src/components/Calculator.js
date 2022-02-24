@@ -1,10 +1,12 @@
 import { useState, forwardRef, useEffect } from 'react';
-import { TextField, FormGroup, FormControlLabel, Switch, Grid, Typography, InputAdornment } from "@mui/material"
+import { TextField, FormGroup, FormControlLabel, Switch, Grid, Typography, InputAdornment, Paper } from "@mui/material";
 import { findSolution as findSolutionJs } from '../algorithms/js/FourSquare';
 import init, { findSolution as findSolutionRust } from "rust";
+
 import './Calculator.css';
 import 'katex/dist/katex.min.css';
 import TeX from '@matejmazur/react-katex';
+
 import NumberFormat from 'react-number-format';
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 
@@ -73,7 +75,7 @@ function Calculator() {
 
   function getHelperText() {
     if (findOptimal) {
-      return "Due to the polynomial time complexity, the browser may stop with a large number.";
+      return "Due to the heavy polynomial time complexity, the browser may stop with a large number.";
     }
     if (!loadedWasm) {
       return "Loading Wasm(Rust)...";
@@ -83,43 +85,45 @@ function Calculator() {
 
   return (
     <div className='calc-root'>
-      <FormGroup>
-        <Grid container>
-          <Grid item xs>
-            <FormControlLabel label="Use WebAssembly" control={
-              <Switch checked={useWasm} onChange={handleUseWasmChange}></Switch>}>
-            </FormControlLabel>
-            <FormControlLabel label="Find a solution with the fewest number" control={
-              <Switch checked={findOptimal} onChange={handleOptimalChange}></Switch>}>
-            </FormControlLabel>
+      <Paper variant='outlined' className='calc-paper'>
+        <FormGroup>
+          <Grid container>
+            <Grid item xs>
+              <FormControlLabel label="Use WebAssembly" control={
+                <Switch checked={useWasm} onChange={handleUseWasmChange}></Switch>}>
+              </FormControlLabel>
+              <FormControlLabel label="Find a solution with the fewest number" control={
+                <Switch checked={findOptimal} onChange={handleOptimalChange}></Switch>}>
+              </FormControlLabel>
+            </Grid>
+
+            <Grid item xs="auto">
+              <Typography variant='caption'>Current time complexity - </Typography>
+              <TeX math={findOptimal ? "\\mathcal{O}(\\sqrt[4]{N})" : "\\text{Randomized polynomial-time}"}></TeX>
+            </Grid>
           </Grid>
+          
+          <TextField
+            value={number}
+            onChange={handleNumberChange}
+            variant="outlined"
+            InputProps={{
+              startAdornment: (findOptimal &&
+                <InputAdornment position="start">
+                  <ReportGmailerrorredIcon />
+                </InputAdornment>
+              ),
+              inputComponent: NumberFormatCustom,
+            }}
+            helperText={getHelperText()}>
+          </TextField>
 
-          <Grid item xs="auto">
-            <Typography variant='caption'>Current time complexity - </Typography>
-            <TeX math={findOptimal ? "\\mathcal{O}(\\sqrt[4]{N})" : "\\mathcal{O}(\\log{}(N)^2)"}></TeX>
-          </Grid>
-        </Grid>
-        
-        <TextField
-          value={number}
-          onChange={handleNumberChange}
-          variant="outlined"
-          InputProps={{
-            startAdornment: (findOptimal &&
-              <InputAdornment position="start">
-                <ReportGmailerrorredIcon />
-              </InputAdornment>
-            ),
-            inputComponent: NumberFormatCustom,
-          }}
-          helperText={getHelperText()}>
-        </TextField>
+        </FormGroup>
 
-      </FormGroup>
-
-      <div className='calc-results'>
-        <TeX math={`${number}=${result.map(x => x+"^2").join("+")}`}></TeX>
-      </div>
+        <div className='calc-results'>
+          <TeX math={`${number}=${result.map(x => x+"^2").join("+")}`}></TeX>
+        </div>
+      </Paper>
     </div>
   );
 }
