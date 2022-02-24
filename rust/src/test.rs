@@ -307,7 +307,7 @@ fn test_pollard_rho() {
 }
 
 #[test]
-fn test_four_square_random() {
+fn test_four_square_random_but_fast() {
     assert_eq!(get_square_sum(&find_solution(&BigInt::from(1_i32), false)), BigInt::from(1_i32));
     assert_eq!(get_square_sum(&find_solution(&BigInt::from(2_i32), false)), BigInt::from(2_i32));
     assert_eq!(get_square_sum(&find_solution(&BigInt::from(3_i32), false)), BigInt::from(3_i32));
@@ -436,7 +436,7 @@ fn test_four_square_random() {
 }
 
 #[test]
-fn test_four_square_optimal() {
+fn test_four_square_optimal_but_slow() {
     assert_eq!(get_square_sum(&find_solution(&BigInt::from(1_i32), true)), BigInt::from(1_i32));
     assert_eq!(get_square_sum(&find_solution(&BigInt::from(2_i32), true)), BigInt::from(2_i32));
     assert_eq!(get_square_sum(&find_solution(&BigInt::from(3_i32), true)), BigInt::from(3_i32));
