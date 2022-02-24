@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import RemarkMathPlugin from 'remark-math';
 import RehypeKatex from 'rehype-katex';
 import introMd from '../shared/Introduction.md';
+import "./Main.css"
 
 function Main() {
   const [intro, setIntro] = useState("");

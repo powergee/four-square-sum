@@ -16,7 +16,7 @@ function App() {
       </div>
 
       <div className="app-layout">
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
           <Routes>
             <Route path="/" element={<Main />} />
           </Routes>
