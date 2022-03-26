@@ -1,7 +1,7 @@
 import { useState, forwardRef, useEffect } from 'react';
 import { TextField, FormGroup, FormControlLabel, Switch, Grid, Typography, InputAdornment, Paper } from "@mui/material";
 import { findSolution as findSolutionJs } from '../algorithms/js/FourSquare';
-import init, { findSolution as findSolutionRust } from "rust";
+import init, { findSolution as findSolutionRust } from "four-square-sum-wasm";
 
 import './Calculator.css';
 import 'katex/dist/katex.min.css';
