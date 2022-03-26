@@ -18,7 +18,7 @@ The randomized polynomial algorithm is [based on MICHAEL 0. RABIN et al.](https:
 
 ## Algorithm
 
-* Rust(with `num_bigint`) Implementation: [lib.rs](https://github.com/powergee/four-square-sum/blob/main/rust/src/lib.rs)
+* Rust(with `num_bigint`) Implementation: [lib.rs](https://github.com/powergee/four-square-sum-wasm/blob/master/src/lib.rs)
 * JS(with `BigInt`) Implementation: [FourSquare.js](https://github.com/powergee/four-square-sum/blob/main/src/algorithms/js/FourSquare.js)
 
 ### Common background
