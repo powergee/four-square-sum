@@ -1,6 +1,7 @@
 # Lagrange's four-square calculator
 
 Every natural number can be represented as follows:
+
 $$
 N = a^2+b^2+c^2+d^2\\
 $$
