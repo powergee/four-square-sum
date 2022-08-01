@@ -45,7 +45,7 @@ function Calculator() {
     });
   }, []);
 
-  function updateResult(nStr) {
+  useEffect(() => {
     const callJs = (nStr, findOptimal) => findSolutionJs(nStr, findOptimal);
     const callRust = (nStr, findOptimal) => findSolutionRust(nStr, findOptimal).split(" ");
 
@@ -53,24 +53,21 @@ function Calculator() {
     if (loadedWasm && useWasm) {
       call = callRust;
     }
-    if (!nStr.includes('-')) {
-      setResult(call(nStr, findOptimal));
+    if (!number.includes('-')) {
+      setResult(call(number, findOptimal));
     }
-  }
+  }, [number, findOptimal, useWasm, loadedWasm]);
 
   function handleNumberChange(e) {
     setNumber(e.target.value);
-    updateResult(e.target.value);
   }
 
   function handleOptimalChange(e) {
     setFindOptimal(e.target.checked);
-    updateResult(number);
   }
 
   function handleUseWasmChange(e) {
     setUseWasm(e.target.checked);
-    updateResult(number);
   }
 
   function getHelperText() {
