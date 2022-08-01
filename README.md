@@ -1,22 +1,19 @@
 # Lagrange's four-square calculator
 
 Every natural number can be represented as follows:
-<!-- $$
+$$
 N = a^2+b^2+c^2+d^2\\
-$$ --> 
+$$
 
-<div align="center"><img style="background: white;" src="svg/EGlvzsItEE.svg"></div>
-<!-- $$
+$$
 \text{($a, b, c, d$ are inegers.)}
-$$ --> 
-
-<div align="center"><img style="background: white;" src="svg/yjTwUIpiWx.svg"></div>
+$$
 
 **Lagrange's four-square theorem**, also known as **Bachet's conjecture**, states that *every natural number can be represented as the sum of four integer squares.* ([ref](https://en.wikipedia.org/wiki/Lagrange%27s_four-square_theorem))
 
 This algorithm can calculate one of the below:
-* **an arbitrary solution** of any non-negative integer <!-- $N$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/W6p4YWiNBV.svg"> by **randomized polynomial time.**
-* **an optimal solution**, which use the fewest numbers, of any non-negative integer <!-- $N$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/W6p4YWiNBV.svg"> by <!-- $\mathcal{O}(\sqrt[4]{N})$ --> <img style="transform: translateY(0.1em); background: white;" src="svg/1zKcmlvaz6.svg">.
+* **an arbitrary solution** of any non-negative integer $N$ by **randomized polynomial time.**
+* **an optimal solution**, which use the fewest numbers, of any non-negative integer $N$ by $\mathcal{O}(\sqrt[4]{N})$.
 
 The randomized polynomial algorithm is [based on MICHAEL 0. RABIN et al.](https://onlinelibrary.wiley.com/doi/10.1002/cpa.3160390713)
 
