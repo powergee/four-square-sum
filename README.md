@@ -18,22 +18,57 @@ This algorithm can calculate one of the below:
 
 The randomized polynomial algorithm is [based on MICHAEL 0. RABIN et al.](https://onlinelibrary.wiley.com/doi/10.1002/cpa.3160390713)
 
-## Demostration and explanation
-
-You can run the algorithm on [GitHub-Pages](https://powergee.github.io/four-square-sum/), which is implemented by React and Rust(Wasm). **There is also a short explanation about the background.**
-
 ## Deploy on local
 
-Rust `cargo` and Node.js environment must be pre-installed.
+Node.js environment must be pre-installed.
 
 ```bash
 git clone https://github.com/powergee/four-square-sum.git
 cd ./four-square-sum
 
-npm run build:wasm  # Build the rust module by wasm-pack
 npm install         # Install dependencies and compiled wasm module
 npm start           # Start local server
 ```
+
+## Algorithm
+
+* Rust(with `num_bigint`) Implementation: [lib.rs](https://github.com/powergee/four-square-sum-wasm/blob/master/src/lib.rs)
+* JS(with `BigInt`) Implementation: [FourSquare.js](https://github.com/powergee/four-square-sum/blob/main/src/algorithms/js/FourSquare.js)
+
+### Common background
+
+* If and only if $N$ is a perfect square, it is represented by only **one square**: $(\sqrt{N})^2$
+* If and only if $N$ is of the form $4^k (8m+7)$ for integers $k$ and $m$, it is represented by **four squares**, and it can't be represented by three or fewer squares. (proved by [Adrien-Marie Legendre](https://en.wikipedia.org/wiki/Adrien-Marie_Legendre))
+* Otherwise, $N$ can be represented by **two or three squares**.
+
+So, if there are any efficient algorithms to find a representation of $N\not=4^k (8m+7)$ with three(or two) squares, we can find solutions for any non-negative integers. Let's say this algorithm as *findSumOfThree(N)*.
+
+Than the algorithm *findSolution(N)* which find a solution for any non-negative integers works like below.
+
+* $N\text{ is a perfect square}$: Return $(\sqrt{N})^2+0+0+0$.
+* $N\text{ is a multiple of 4}$: Calculate *findSolution($N/4$)* and multiply $2$ to each element.
+* $N = 8m+7$: Calculate *findSumOfThree($N-4$)* and obtain $N-4=x^2+y^2+z^2$. Than, $N=2^2+x^2+y^2+z^2$ is satisfied, so return $N=2^2+x^2+y^2+z^2$.
+* $\text{Otherwise}$: return *findSumOfThree(N)*.
+
+This project implements *findSumOfThree(N)* by two ways: (1)calculate an arbitrary solution by **randomized polynomial-time algorithms**, (2)or an optimal solution which use the fewest numbers by **Pollard-rho factorization algorithm** $\mathcal{O}(\sqrt[4]{N})$.
+
+### 1. An arbitrary solution
+
+This approach is mainly based on [the paper by Michael O. Rabin and Jeffery O. Shallit](https://onlinelibrary.wiley.com/doi/10.1002/cpa.3160390713) to find an arbitrary solution in randomized polynomial-time.
+
+First of all, they revisited the fact that there is a randomized algorithm to represent any prime numbers $p=4k+1$ by a sum of two squares, requiring an $\mathcal{O}(\log p)$ operations. (Rabin [2])
+
+They found $N$ ($N\not=4^k (8m+7)$) can be written as $x+p$ or $x+2p$ ($p$ is a prime number of the form $4k+1$) and using an algorithm mentioned in the previous paragraph, $N$ can be represented with three squares. To select $p$ efficiently, a pseudo-random function must be used.
+
+For more mathematical prooves and implementations, review their paper (especially, section 4).
+
+### 2. An optimal solution which use the fewest numbers
+
+As described shortly on previous sub-section, we have efficient algorithm to find three square sum representation of an integer $N$ ($N\not=4^k (8m+7)$).
+
+However, it is not guaranteed to find an optimal solution which use the fewest numbers. If and only if $N$ is a composite number with primes $p_i$ where $p_i\equiv1 \mod 4$, $N$ is represented by **only two squares**, using [Brahmagupta–Fibonacci identity](https://en.wikipedia.org/wiki/Brahmagupta%E2%80%93Fibonacci_identity).
+
+To implement this approach, prime factorization must be preceded. Pollard-rho factorization algorithm can factorize an positive integer $N$ in $\mathcal{O}(\sqrt{p})$ where $p$ is a smallest prime factor.
 
 ## References
 
