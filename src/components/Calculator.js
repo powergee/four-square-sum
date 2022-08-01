@@ -53,7 +53,7 @@ function Calculator() {
     if (loadedWasm && useWasm) {
       call = callRust;
     }
-    if (!number.includes('-')) {
+    if (number && !number.includes("-") && number !== "0") {
       setResult(call(number, findOptimal));
     }
   }, [number, findOptimal, useWasm, loadedWasm]);
