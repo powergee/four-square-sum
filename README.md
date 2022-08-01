@@ -46,8 +46,8 @@ So, if there are any efficient algorithms to find a representation of $N\not=4^k
 Than the algorithm *findSolution(N)* which find a solution for any non-negative integers works like below.
 
 * $N\text{ is a perfect square}$: Return $(\sqrt{N})^2+0+0+0$.
-* $N\text{ is a multiple of 4}$: Calculate *findSolution($N/4$)* and multiply $2$ to each element.
-* $N = 8m+7$: Calculate *findSumOfThree($N-4$)* and obtain $N-4=x^2+y^2+z^2$. Than, $N=2^2+x^2+y^2+z^2$ is satisfied, so return $N=2^2+x^2+y^2+z^2$.
+* $N\text{ is a multiple of 4}$: Calculate *findSolution(N/4)* and multiply $2$ to each element.
+* $N = 8m+7$: Calculate *findSumOfThree(N-4)* and obtain $N-4=x^2+y^2+z^2$. Than, $N=2^2+x^2+y^2+z^2$ is satisfied, so return $N=2^2+x^2+y^2+z^2$.
 * $\text{Otherwise}$: return *findSumOfThree(N)*.
 
 This project implements *findSumOfThree(N)* by two ways: (1)calculate an arbitrary solution by **randomized polynomial-time algorithms**, (2)or an optimal solution which use the fewest numbers by **Pollard-rho factorization algorithm** $\mathcal{O}(\sqrt[4]{N})$.
@@ -58,17 +58,17 @@ This approach is mainly based on [the paper by Michael O. Rabin and Jeffery O. S
 
 First of all, they revisited the fact that there is a randomized algorithm to represent any prime numbers $p=4k+1$ by a sum of two squares, requiring an $\mathcal{O}(\log p)$ operations. (Rabin [2])
 
-They found $N$ ($N\not=4^k (8m+7)$) can be written as $x+p$ or $x+2p$ ($p$ is a prime number of the form $4k+1$) and using an algorithm mentioned in the previous paragraph, $N$ can be represented with three squares. To select $p$ efficiently, a pseudo-random function must be used.
+They found $N (N\not=4^k (8m+7))$ can be written as $x+p$ or $x+2p$ ( $p$ is a prime number of the form $4k+1$) and using an algorithm mentioned in the previous paragraph, $N$ can be represented with three squares. To select $p$ efficiently, a pseudo-random function must be used.
 
 For more mathematical prooves and implementations, review their paper (especially, section 4).
 
 ### 2. An optimal solution which use the fewest numbers
 
-As described shortly on previous sub-section, we have efficient algorithm to find three square sum representation of an integer $N$ ($N\not=4^k (8m+7)$).
+As described shortly on previous sub-section, we have efficient algorithm to find three square sum representation of an integer $N (N\not=4^k (8m+7))$.
 
 However, it is not guaranteed to find an optimal solution which use the fewest numbers. If and only if $N$ is a composite number with primes $p_i$ where $p_i\equiv1 \mod 4$, $N$ is represented by **only two squares**, using [Brahmagupta–Fibonacci identity](https://en.wikipedia.org/wiki/Brahmagupta%E2%80%93Fibonacci_identity).
 
-To implement this approach, prime factorization must be preceded. Pollard-rho factorization algorithm can factorize an positive integer $N$ in $\mathcal{O}(\sqrt{p})$ where $p$ is a smallest prime factor.
+To implement this approach, prime factorization must be preceded. **Pollard-rho factorization algorithm** can factorize an positive integer $N$ in $\mathcal{O}(\sqrt{p})$ where $p$ is a smallest prime factor.
 
 ## References
 
